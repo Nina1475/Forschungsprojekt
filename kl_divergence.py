@@ -4,14 +4,10 @@ import matplotlib.pyplot as plt
 
 
 
-def update_vector(theta,learning_rate):
-    theta = theta + learning_rate * (1 / theta[0]) * np.array([1, 0, 0, 0])
-    theta = theta / theta.sum() 
-    theta = theta + learning_rate * (1 / theta[1]) * np.array([0, 1, 0, 0])
-    theta = theta / theta.sum() 
-    theta = theta + learning_rate * (1 / theta[2]) * np.array([0, 0, 1, 0])
-    theta = theta / theta.sum() 
-    theta = theta + learning_rate * (1 / theta[3]) * np.array([0, 0, 0, 1])
+def update_vector(theta,i,learning_rate):
+    vector = np.zeros(4)  # Creates a vector [0, 0, 0, 0]
+    vector[i] = 1 
+    theta = theta + learning_rate * (1 / theta[i]) * vector
     theta = theta / theta.sum() 
     return theta
 
@@ -22,10 +18,7 @@ def update_vector(theta,learning_rate):
 
 def kl_divergence(p, q):
     """
-    Compute the Kullback-Leibler Divergence D_KL(P || Q)
-    :param p: Probability distribution P (true distribution)
-    :param q: Probability distribution Q (approximation)
-    :return: KL divergence
+    increase in one direction relevant to the observation that we have 
     """
     p = np.array(p)
     q = np.array(q)
@@ -67,7 +60,7 @@ def generate_samples(n, p_star):
     print(list)
     list = np.array(list)
     
-    return list, mapped_samples
+    return samples, mapped_samples
 
 
 
@@ -77,15 +70,14 @@ def generate_samples(n, p_star):
 # rename it in a better convention 
 theta = [0.25,0.25,0.25,0.25]
 p_true = [0.1, 0.3, 0.2, 0.4]  # this is the true probability 
-n = 100  # Number of samples to generate
+n = 25  # Number of samples to generate
 # generate the samples and the probability distribution
-#p_star, mapped_samples = generate_samples(n,p_staro)
+samples, mapped_samples = generate_samples(n,p_true)
 print(list)
 learning_rate = 0.01
-kl_values = []
-# think about not going to zero 
-for i in range(100):
-    theta = update_vector(theta,learning_rate)
+kl_values = [] 
+for i in samples:
+    theta = update_vector(theta,i,learning_rate)
     kl_values.append(kl_divergence(theta,p_true))
     print(theta)
 
@@ -94,12 +86,12 @@ print (kl_divergence(theta,p_true))
  
 # Plot the KL divergence
 plt.figure(figsize=(10, 5))
-plt.plot(range(100), kl_values, label="KL Divergence ")
+plt.plot(range(25), kl_values, label="KL Divergence ")
 plt.xlabel("Iterations")
 plt.ylabel("KL Divergence")
 plt.title("KL Divergence Over Iterations")
 plt.legend()
 plt.grid(True)
 plt.show()
-#writing in latex 
+
 # github repository 
