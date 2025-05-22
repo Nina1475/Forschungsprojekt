@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def update_vector(old_theta,occurrence,learning_rate):
   gradient =np.array( occurrence)/np.array(old_theta)
   current_theta = old_theta + learning_rate * gradient
-  current_theta/=current_theta.sum()
+  #current_theta/=current_theta.sum()
   return current_theta
 
 def kl_divergence(p, q):
@@ -18,7 +18,14 @@ def kl_divergence(p, q):
     return np.sum(p * np.log(p / q))
 
 
+'''
+def imperical_ distribution () compute the true distribution of the data samples 
+stochatic gradient descent if it doesnt work 
+work on latent represenntation and how to inncorrate into the example that we have 
 
+'''
+def  imperical_distribution(occurrence):
+    return(occurrence/occurrence.sum())
 
 
 
@@ -51,52 +58,53 @@ def generate_samples(n, p_star):
 
 # rename it in a better convention 
 p_star = [0.4, 0.3, 0.1, 0.2]
+#p_star = [0.5, 0.2, 0.1, 0.2]
+#p_star = [0.3, 0.4, 0.2, 0.1]
 p_theta = [0.25, 0.25, 0.25, 0.25]  # this is the true probability 
 n = 10000  # Number of samples to generate
 # generate the samples and the probability distribution
 samples, mapped_samples = generate_samples(n, p_star)
-learning_rate =  1e-5 
-kl_values = [] 
+learning_rate = 5
+theta = [[] for _ in range(4)] 
 i = 0
 arr = [0, 1, 2, 3]
-max_iters = 500
+max_iters = 1000
 occurrence = [np.sum(samples == el) for el in arr]
-print(occurrence)
-p_theta_history = [[] for _ in range(4)]  
+#print(occurrence)
 
-while kl_divergence(p_theta, p_star) >= 0.00001 and i < max_iters :
+for k in range(4):
+        theta[k].append(p_theta[k] )
 
+
+        
+while i<=max_iters  :
+    
     p_theta = update_vector(p_theta,occurrence,learning_rate)
-    kl_values.append(kl_divergence(p_theta, p_star))
     for j in range(4):
-        p_theta_history[j].append(p_theta[j])  # Store each component
+        theta[j].append((p_theta / p_theta.sum())[j])
+    #print(p_theta)
+    #for j in range(4):
+       #p_theta_history[j].append(p_theta[j])  # Store each component
     print(p_theta)
     i += 1
 
 
+print( "This is where p_theta connverges",p_theta/ p_theta.sum() )
 
+print("this is the imperical distribution", imperical_distribution(np.array(occurrence)))
+print(occurrence)
+# Convert to NumPy array for easier slicing
 
-
-#print(f'In the {i}th iteration the kl divergence converges to, {kl_divergence(p_theta, p_star)},and p_theta={p_theta}')    
-
-
-# Plot the KL divergence
-plt.figure(figsize=(10, 5))
-plt.plot(range(i), kl_values, label="KL Divergence ")
-plt.xlabel("Iterations")
-plt.ylabel("KL Divergence")
-plt.title("KL Divergence Over Iterations")
-plt.legend()
-plt.grid(True)
-plt.show()
-plt.figure(figsize=(10, 5))
+plt.figure(figsize=(10, 6))
 colors = ["blue", "red", "green", "purple"]
-for j in range(4):
-    plt.plot(range(i), p_theta_history[j], label=f"p_theta[{j}]", color=colors[j])
 
-plt.xlabel("Iterations")
-plt.ylabel("Probability")
-plt.title("Convergence of Individual p_theta Components")
+for j in range(4):
+    plt.plot(theta[j][:max_iters], label=f"theta_{j}", color=colors[j])
+
+plt.xlabel('Iteration')
+plt.ylabel('Theta values')
+plt.title('Convergence of theta over 10000 iterations')
 plt.legend()
 plt.grid(True)
+plt.tight_layout()
 plt.show()
