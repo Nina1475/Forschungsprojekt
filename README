@@ -1,0 +1,60 @@
+Table of Contents
+
+Overview
+Getting Started
+Prerequisites
+Installation
+Usage
+Testing
+Overview
+
+Forschungsprojekt is a sophisticated developer tool for probabilistic modeling, focused on estimating and converging on the true distribution of binary outcome data using KL divergence minimization. It supports sample generation, empirical distribution calculation, and iterative parameter updates through stochastic gradient descent, all while providing visual insights into the convergence process.
+
+Why Forschungsprojekt?
+
+This project empowers developers to perform precise distribution approximation and analysis. The core features include:
+
+🧪 🔍 KL Divergence Minimization: Facilitates accurate estimation of the true data distribution by iteratively reducing divergence.
+🌐 📊 Sample Generation & Empirical Analysis: Enables creation of synthetic samples and empirical distribution calculations for validation.
+🚀 🔄 Iterative Parameter Updates: Uses stochastic gradient descent to refine model parameters across iterations.
+🎨 📈 Convergence Visualization: Offers visual insights into the learning process, aiding debugging and understanding.
+🏗️ ⚙️ Integrated Distribution Learning Architecture: Fits within a broader framework for distribution approximation and probabilistic modeling.
+Getting Started
+
+Prerequisites
+
+This project requires the following dependencies:
+
+Programming Language: Python
+Package Manager: Conda
+Installation
+
+Build Forschungsprojekt from the source and install dependencies:
+
+Clone the repository:
+
+❯ git clone https://github.com/Nina1475/Forschungsprojekt
+Navigate to the project directory:
+
+❯ cd Forschungsprojekt
+Install the dependencies:
+
+Using conda:
+
+❯ conda env create -f conda.yml
+Usage
+
+Run the project with:
+
+Using conda:
+
+conda activate {venv}
+python {entrypoint}
+Testing
+
+Forschungsprojekt uses the {test_framework} test framework. Run the test suite with:
+
+Using conda:
+
+conda activate {venv}
+pytest
