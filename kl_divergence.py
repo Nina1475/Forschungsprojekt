@@ -61,7 +61,7 @@ p_star = [0.4, 0.3, 0.1, 0.2]
 #p_star = [0.5, 0.2, 0.1, 0.2]
 #p_star = [0.3, 0.4, 0.2, 0.1]
 p_theta = [0.25, 0.25, 0.25, 0.25]  # this is the true probability 
-n = 10000  # Number of samples to generate
+n = 100  # Number of samples to generate
 # generate the samples and the probability distribution
 samples, mapped_samples = generate_samples(n, p_star)
 learning_rate = 5
